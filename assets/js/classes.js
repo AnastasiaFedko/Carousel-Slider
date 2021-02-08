@@ -23,7 +23,8 @@ class Carousel {
     }
     set currentIndex(value) {
         if (typeof value !== 'number') throw new TypeError();
-        if (!Number.isSafeInteger(value) ||
+        if (
+            !Number.isSafeInteger(value) ||
             value < 0 ||
             value >= this._slides.length
         )

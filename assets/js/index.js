@@ -52,6 +52,7 @@ const divCheck = document.getElementById('check1');
 divCheck.addEventListener('click', ChangeSlider);
 
 const radioSlider1 = document.getElementById('slider1');
+
 const divPointers = document.getElementById('pointers');
 CreatePointers();
 SetNewImgIndex();

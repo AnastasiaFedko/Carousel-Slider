@@ -5,23 +5,23 @@ import { carousel, radioSlider1, divPointers } from "./index.js";
 const sliderClick = (direction = 'next') => (e) => {
     carousel.currentIndex =
         carousel[direction == 'next' ? 'next1Index' : 'prev1Index'];
-    radioSlider1.checked ? updateSlide1() : updateSlide2(direction);
+    radioSlider1.checked ? SetNewImgIndex() : updateSlide(direction);
     divPointers.childNodes[carousel.currentIndex].classList.replace('notCurrImgPointer', 'currImgPointer');
     direction == 'next' ? divPointers.childNodes[carousel.prev1Index].classList.replace('currImgPointer', 'notCurrImgPointer') :
         divPointers.childNodes[carousel.next1Index].classList.replace('currImgPointer', 'notCurrImgPointer');
 };
 
-function updateSlide1() {
+function ChangeCurrentImgSlidePosition() {
     const curImg = document.querySelector('.currentImage');
     if (curImg.id !== 'middleImage') {
         curImg.classList.replace('currentImage', 'notCurrImage');
         const newCurImg = document.getElementById('middleImage');
         newCurImg.classList.replace('notCurrImage', 'currentImage');
-    }
+    }    
     SetNewImgIndex();
 }
 
-function updateSlide2(direction) {
+function updateSlide(direction) {
     if (direction == 'next') {
         const currentImgSlide = document.querySelector('.currentImage');
         if (currentImgSlide.nextElementSibling != null) {
@@ -67,40 +67,70 @@ function updateSlide2(direction) {
 }
 
 function ChangeSlider() {
-    const radioSlider1 = document.getElementById('slider1');
     const radioSlider2 = document.getElementById('slider2');
-    radioSlider1.checked ? radioSlider2.checked = true : radioSlider1.checked = true;
+    if (radioSlider1.checked) {
+        radioSlider2.checked = true
+    }
+    else {
+        radioSlider1.checked = true;
+        ChangeCurrentImgSlidePosition();
+    }
+};
+
+//// click on pointer to change index of current image
+function SetCurrSlideOnPointerClick(e) {
+    const allPointers = divPointers.children;
+    divPointers.childNodes[carousel.currentIndex].classList.replace('currImgPointer', 'notCurrImgPointer');
+    for (let i = 0; i < allPointers.length; i++) {
+        if (allPointers[i] == e.target) {
+            carousel.currentIndex = i;
+        }
+    }
+    divPointers.childNodes[carousel.currentIndex].classList.replace('notCurrImgPointer', 'currImgPointer');
+
+    const currentImgSlide = document.querySelector('.currentImage');
+    currentImgSlide.setAttribute('src', carousel.currentSlide.src);
+    currentImgSlide.setAttribute('alt', carousel.currentIndex);
+
+    if (currentImgSlide.previousElementSibling != null) {
+        SetAttributesToLeft(currentImgSlide.previousElementSibling);
+    }
+    if (currentImgSlide.nextElementSibling !== null) {
+        SetAttributesToRight(currentImgSlide.nextElementSibling);
+    }
 };
 
 function CreatePointers() {
     for (let i = 0; i < carousel.length; i++) {
         divPointers.append(document.createElement('span'));
     }
-    for (const spanEl of divPointers.childNodes) {
+    for (const spanEl of divPointers.children) {
         spanEl.classList.add('notCurrImgPointer');
         spanEl.classList.add('imgPointer');
+        spanEl.addEventListener('click', SetCurrSlideOnPointerClick);
     }
-    divPointers.childNodes[carousel.currentIndex].classList.replace('notCurrImgPointer', 'currImgPointer');
+    divPointers.children[carousel.currentIndex].classList.replace('notCurrImgPointer', 'currImgPointer');
 };
 
 //// click image slide if slider#2.checked
 function SetCurrSlide(e) {
     if (!radioSlider1.checked) {
-        if (!e.target.classList.contains('currentImage')) {           
+        if (!e.target.classList.contains('currentImage')) {
             const oldCurrImg = document.querySelector('.currentImage');
             oldCurrImg.classList.replace('currentImage', 'notCurrImage');
             e.target.classList.replace('notCurrImage', 'currentImage');
             divPointers.childNodes[carousel.currentIndex].classList.replace('currImgPointer', 'notCurrImgPointer');
             carousel.currentIndex = Number(e.target.alt);
             divPointers.childNodes[carousel.currentIndex].classList.replace('notCurrImgPointer', 'currImgPointer');
-            if (e.target.previousElementSibling !== null)              
-                   SetSizeToLeft(e.target);  
+            if (e.target.previousElementSibling !== null)
+                SetSizeToLeft(e.target);
             if (e.target.nextElementSibling !== null)
-                 SetSizeToRight(e.target);     
+                SetSizeToRight(e.target);
         }
     }
 }
 
+////add event onclick on slides
 function SetImgClick() {
     const imgSliders = document.querySelectorAll('.slideImg');
     for (const imgSlide of imgSliders) {
@@ -132,6 +162,7 @@ function SetNewImgIndex() {
     SetSizeToRight(curImg);
 };
 
+////change img size
 function SetSizeToRight(currImgEl, value = 280) {
     currImgEl.style.width = `${value}px`;
     currImgEl.style.height = `${value - 20}px`;
@@ -147,6 +178,7 @@ function SetSizeToLeft(currImgEl, value = 280) {
     }
 };
 
+////set attributes for slides
 function SetAttributesToRight(currImgEl, index = 1) {
     currImgEl.setAttribute('src', carousel[`next${index}Slide`].src);
     currImgEl.setAttribute('alt', carousel[`next${index}Index`]);
@@ -162,6 +194,5 @@ function SetAttributesToLeft(currImgEl, index = 1) {
         SetAttributesToLeft(currImgEl.previousElementSibling, index + 1);
     }
 };
-
 
 export { SetImgClick, CreatePointers, ChangeSlider, sliderClick, SetNewImgIndex };
