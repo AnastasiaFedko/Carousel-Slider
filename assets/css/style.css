@@ -39,6 +39,11 @@
     position: relative;
     margin-top: 50px;
     width: 800px;   
+    height: 255px;    
+  }
+
+  img{
+    transition: width .5s;
   }
   
   .slideImg {
@@ -151,6 +156,7 @@ input#slider2:checked ~ .check {
 .imgPointer{
   margin: 0 10px;  
 	border-radius: 50%;
+  transition: width .5s;
 }
 
 .notCurrImgPointer{
@@ -160,8 +166,8 @@ input#slider2:checked ~ .check {
   border: 1px solid rgb(170, 170, 170);
 }
 .currImgPointer{
-  width: 17px; 
-  height: 17px;	
+  width: 20px; 
+  height: 20px;	
   background: #768d87;
   border: 1px solid #697973;
 }
