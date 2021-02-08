@@ -187,13 +187,16 @@ function CreatePointers() {
     divPointers.childNodes[carousel.currentIndex].classList.replace('notCurrImgPointer', 'currImgPointer');
 };
 
+//// click image slide if slider#2.checked
 function SetCurrSlide(e) {
     if (!radioSlider1.checked) {
         if (!e.target.classList.contains('currentImage')) {
             const oldCurrImg = document.querySelector('.currentImage');
             oldCurrImg.classList.replace('currentImage', 'notCurrImage');
             e.target.classList.replace('notCurrImage', 'currentImage');
+            divPointers.childNodes[carousel.currentIndex].classList.replace('currImgPointer', 'notCurrImgPointer');
             carousel.currentIndex = Number(e.target.alt);
+            divPointers.childNodes[carousel.currentIndex].classList.replace('notCurrImgPointer', 'currImgPointer');
         }
     }
 }
