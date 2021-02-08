@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script defer src="assets/js/index.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <div class="carousel" style="border: 5px gray;">
+        <div class="imgWrapper">
+            <img class="slideImg prevImage notCurrImage" src="" alt="" />
+            <img class="slideImg currentImage" src="" alt="" />
+            <img class="slideImg nextImage notCurrImage" src="" alt="" />
+        </div>
+        <div id="pointers"></div>
+        <div class="controlWrapper">
+            <button class="btn"><img src="assets/img/left15x25.png" alt=""></button>
+            <button class="btn"><img src="assets/img/right17x25.png" alt=""></button>
+        </div>
+        <div id="sliderType">
+            <ul>
+                <li>
+                    <input type="radio" name="sliderType" id="slider1" checked>
+                    <label for="slider1">Slider № 1</label>
+                    <div class="check" id="check1"></div>
+                </li>
+
+                <li>
+                    <input type="radio" name="sliderType" id="slider2">
+                    <label for="slider2" id="lbl2">Slider № 2</label>
+                    <div class="check"></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
