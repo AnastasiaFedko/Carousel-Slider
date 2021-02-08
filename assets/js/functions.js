@@ -1,36 +1,24 @@
 'use strict'
 
-import {carousel, radioSlider1, imgSliders, divPointers} from "./index.js";
+import { carousel, radioSlider1, divPointers } from "./index.js";
 
 const sliderClick = (direction = 'next') => (e) => {
     carousel.currentIndex =
-        carousel[direction == 'next' ? 'nextIndex' : 'prevIndex'];
+        carousel[direction == 'next' ? 'next1Index' : 'prev1Index'];
     radioSlider1.checked ? updateSlide1() : updateSlide2(direction);
     divPointers.childNodes[carousel.currentIndex].classList.replace('notCurrImgPointer', 'currImgPointer');
-    direction == 'next' ? divPointers.childNodes[carousel.prevIndex].classList.replace('currImgPointer', 'notCurrImgPointer') :
-        divPointers.childNodes[carousel.nextIndex].classList.replace('currImgPointer', 'notCurrImgPointer');
+    direction == 'next' ? divPointers.childNodes[carousel.prev1Index].classList.replace('currImgPointer', 'notCurrImgPointer') :
+        divPointers.childNodes[carousel.next1Index].classList.replace('currImgPointer', 'notCurrImgPointer');
 };
 
 function updateSlide1() {
-    const newRrevImg = document.querySelector('.prevImage');
-    const oldCurrentImg = document.querySelector('.currentImage');
-    if (oldCurrentImg !== newRrevImg.nextSibling) {
-        oldCurrentImg.classList.replace('currentImage', 'notCurrImage');
-        const newCurrentImg = newRrevImg.nextElementSibling;
-        newCurrentImg.classList.replace('notCurrImage', 'currentImage');
-        newCurrentImg.setAttribute('src', carousel.currentSlide.src);
-        newCurrentImg.setAttribute('alt', carousel.currentIndex);
+    const curImg = document.querySelector('.currentImage');
+    if (curImg.id !== 'middleImage') {
+        curImg.classList.replace('currentImage', 'notCurrImage');
+        const newCurImg = document.getElementById('middleImage');
+        newCurImg.classList.replace('notCurrImage', 'currentImage');
     }
-    else {
-        oldCurrentImg.setAttribute('src', carousel.currentSlide.src);
-        oldCurrentImg.setAttribute('alt', carousel.currentIndex);
-    }
-    newRrevImg.setAttribute('src', carousel.prevSlide.src);
-    newRrevImg.setAttribute('alt', carousel.prevIndex);
-
-    const newNextImg = document.querySelector('.nextImage');
-    newNextImg.setAttribute('src', carousel.nextSlide.src);
-    newNextImg.setAttribute('alt', carousel.nextIndex);
+    SetNewImgIndex();
 }
 
 function updateSlide2(direction) {
@@ -38,71 +26,42 @@ function updateSlide2(direction) {
         const currentImgSlide = document.querySelector('.currentImage');
         if (currentImgSlide.nextElementSibling != null) {
             const rightImgSlide = currentImgSlide.nextElementSibling;
-
-            if (rightImgSlide.nextElementSibling != null) {
-                const rightEndImgSlide = rightImgSlide.nextElementSibling;
-                rightEndImgSlide.setAttribute('src', carousel.nextSlide.src);
-                rightEndImgSlide.setAttribute('alt', carousel.nextIndex);
-            }
-            else {
-                const leftImgSlide = currentImgSlide.previousElementSibling;
-                leftImgSlide.setAttribute('src', carousel.prevPrevSlide.src);
-                leftImgSlide.setAttribute('alt', carousel.prevPrevIndex);
-            }
-            currentImgSlide.setAttribute('src', carousel.prevSlide.src);
-            currentImgSlide.setAttribute('alt', carousel.prevIndex);
             currentImgSlide.classList.replace('currentImage', 'notCurrImage');
-
+            rightImgSlide.classList.replace('notCurrImage', 'currentImage');
             rightImgSlide.setAttribute('src', carousel.currentSlide.src);
             rightImgSlide.setAttribute('alt', carousel.currentIndex);
-            rightImgSlide.classList.replace('notCurrImage', 'currentImage');
+            if (rightImgSlide.nextElementSibling !== null) {
+                SetAttributesToRight(rightImgSlide.nextElementSibling);
+                SetSizeToRight(rightImgSlide);
+            }
+            SetAttributesToLeft(rightImgSlide.previousElementSibling);
+            SetSizeToLeft(rightImgSlide);
         }
         else {
             currentImgSlide.setAttribute('src', carousel.currentSlide.src);
             currentImgSlide.setAttribute('alt', carousel.currentIndex);
-
-            const leftImgSlide = currentImgSlide.previousElementSibling;
-            leftImgSlide.setAttribute('src', carousel.prevSlide.src);
-            leftImgSlide.setAttribute('alt', carousel.prevIndex);
-
-            const leftEndImgSlide = leftImgSlide.previousElementSibling;
-            leftEndImgSlide.setAttribute('src', carousel.prevPrevSlide.src);
-            leftEndImgSlide.setAttribute('alt', carousel.prevPrevIndex);
+            SetAttributesToLeft(currentImgSlide.previousElementSibling);
         }
     }
     else {
         const currentImgSlide = document.querySelector('.currentImage');
         if (currentImgSlide.previousElementSibling != null) {
             const leftImgSlide = currentImgSlide.previousElementSibling;
-            if (leftImgSlide.previousElementSibling != null) {
-                const leftEndImgSlide = leftImgSlide.previousElementSibling;
-                leftEndImgSlide.setAttribute('src', carousel.prevSlide.src);
-                leftEndImgSlide.setAttribute('alt', carousel.prevIndex);
-            }
-            else {
-                const rightImgSlide = currentImgSlide.nextElementSibling;
-                rightImgSlide.setAttribute('src', carousel.nextNextSlide.src);
-                rightImgSlide.setAttribute('alt', carousel.nextNextIndex);
-            }
-            currentImgSlide.setAttribute('src', carousel.nextSlide.src);
-            currentImgSlide.setAttribute('alt', carousel.nextIndex);
+            leftImgSlide.classList.replace('notCurrImage', 'currentImage');
             currentImgSlide.classList.replace('currentImage', 'notCurrImage');
-
             leftImgSlide.setAttribute('src', carousel.currentSlide.src);
             leftImgSlide.setAttribute('alt', carousel.currentIndex);
-            leftImgSlide.classList.replace('notCurrImage', 'currentImage');
+            if (leftImgSlide.previousElementSibling != null) {
+                SetAttributesToLeft(leftImgSlide.previousElementSibling);
+                SetSizeToLeft(leftImgSlide);
+            }
+            SetAttributesToRight(leftImgSlide.nextElementSibling);
+            SetSizeToRight(leftImgSlide);
         }
         else {
             currentImgSlide.setAttribute('src', carousel.currentSlide.src);
             currentImgSlide.setAttribute('alt', carousel.currentIndex);
-
-            const rightImgSlide = currentImgSlide.nextElementSibling;
-            rightImgSlide.setAttribute('src', carousel.nextSlide.src);
-            rightImgSlide.setAttribute('alt', carousel.nextIndex);
-
-            const rightEndImgSlide = rightImgSlide.nextElementSibling;
-            rightEndImgSlide.setAttribute('src', carousel.nextNextSlide.src);
-            rightEndImgSlide.setAttribute('alt', carousel.nextNextIndex);
+            SetAttributesToRight(currentImgSlide.nextElementSibling);
         }
     }
 }
@@ -127,21 +86,82 @@ function CreatePointers() {
 //// click image slide if slider#2.checked
 function SetCurrSlide(e) {
     if (!radioSlider1.checked) {
-        if (!e.target.classList.contains('currentImage')) {
+        if (!e.target.classList.contains('currentImage')) {           
             const oldCurrImg = document.querySelector('.currentImage');
             oldCurrImg.classList.replace('currentImage', 'notCurrImage');
             e.target.classList.replace('notCurrImage', 'currentImage');
             divPointers.childNodes[carousel.currentIndex].classList.replace('currImgPointer', 'notCurrImgPointer');
             carousel.currentIndex = Number(e.target.alt);
             divPointers.childNodes[carousel.currentIndex].classList.replace('notCurrImgPointer', 'currImgPointer');
+            if (e.target.previousElementSibling !== null)              
+                   SetSizeToLeft(e.target);  
+            if (e.target.nextElementSibling !== null)
+                 SetSizeToRight(e.target);     
         }
     }
 }
 
 function SetImgClick() {
+    const imgSliders = document.querySelectorAll('.slideImg');
     for (const imgSlide of imgSliders) {
         imgSlide.addEventListener('click', SetCurrSlide);
     }
 };
 
-export {SetImgClick, CreatePointers, ChangeSlider, sliderClick};
+function SetNewImgIndex() {
+    const curImg = document.querySelector('.currentImage');
+    curImg.setAttribute('src', carousel.currentSlide.src);
+    curImg.setAttribute('alt', carousel.currentIndex);
+
+    const nextImg = document.getElementById('nextImage');
+    nextImg.setAttribute('src', carousel.next1Slide.src);
+    nextImg.setAttribute('alt', carousel.next1Index);
+
+    const nextEndImg = document.getElementById('nextEndImage');
+    nextEndImg.setAttribute('src', carousel.next2Slide.src);
+    nextEndImg.setAttribute('alt', carousel.next2Index);
+
+    const prevImg = document.getElementById('prevImage');
+    prevImg.setAttribute('src', carousel.prev1Slide.src);
+    prevImg.setAttribute('alt', carousel.prev1Index);
+
+    const prevEndImg = document.getElementById('prevEndImage');
+    prevEndImg.setAttribute('src', carousel.prev2Slide.src);
+    prevEndImg.setAttribute('alt', carousel.prev2Index);
+    SetSizeToLeft(curImg);
+    SetSizeToRight(curImg);
+};
+
+function SetSizeToRight(currImgEl, value = 280) {
+    currImgEl.style.width = `${value}px`;
+    currImgEl.style.height = `${value - 20}px`;
+    if (currImgEl.nextElementSibling !== null) {
+        SetSizeToRight(currImgEl.nextElementSibling, value - 30);
+    }
+};
+function SetSizeToLeft(currImgEl, value = 280) {
+    currImgEl.style.width = `${value}px`;
+    currImgEl.style.height = `${value - 20}px`;
+    if (currImgEl.previousElementSibling !== null) {
+        SetSizeToLeft(currImgEl.previousElementSibling, value - 30);
+    }
+};
+
+function SetAttributesToRight(currImgEl, index = 1) {
+    currImgEl.setAttribute('src', carousel[`next${index}Slide`].src);
+    currImgEl.setAttribute('alt', carousel[`next${index}Index`]);
+    if (currImgEl.nextElementSibling !== null) {
+        SetAttributesToRight(currImgEl.nextElementSibling, index + 1);
+    }
+};
+
+function SetAttributesToLeft(currImgEl, index = 1) {
+    currImgEl.setAttribute('src', carousel[`prev${index}Slide`].src);
+    currImgEl.setAttribute('alt', carousel[`prev${index}Index`]);
+    if (currImgEl.previousElementSibling !== null) {
+        SetAttributesToLeft(currImgEl.previousElementSibling, index + 1);
+    }
+};
+
+
+export { SetImgClick, CreatePointers, ChangeSlider, sliderClick, SetNewImgIndex };

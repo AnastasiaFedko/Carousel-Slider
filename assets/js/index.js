@@ -1,7 +1,7 @@
 'use strict'
 
 import {Slide, Carousel} from "./classes.js";
-import {SetImgClick, CreatePointers, ChangeSlider, sliderClick} from "./functions.js";
+import {SetImgClick, CreatePointers, ChangeSlider, sliderClick, SetNewImgIndex} from "./functions.js";
 
 
 const carousel = new Carousel([
@@ -32,6 +32,14 @@ const carousel = new Carousel([
     new Slide(
         'https://losko.ru/wp-content/uploads/2019/11/ebd7ff7f9d8ddb7b9a8502168187.jpg',
         'Постоянство памяти, Сфльвадор Дали'
+    ), 
+    new Slide(
+        'https://print4you.com.ua/upload/resize_cache/iblock/ef0/640_250_1/ef000921e841fd947b984e82d2038e97.jpg',
+        'Рождение Венеры, Боттичелли Сандро'
+    ), 
+    new Slide(
+        'https://12millionov.com/wp-content/uploads/2020/03/5a-Girl-Vermeer.jpg',
+        'Девушка с жемчужной серёжкой, Вермеер Ян'
     )
 ]);
 
@@ -40,27 +48,13 @@ const [prevButtonElem, nextButtonElem] = document.querySelectorAll('.btn');
 prevButtonElem.addEventListener('click', sliderClick('prev'));
 nextButtonElem.addEventListener('click', sliderClick('next'));
 
-const radioSlider1 = document.getElementById('slider1');
-
-const curImg = document.querySelector('.currentImage');
-curImg.setAttribute('src', carousel.currentSlide.src);
-curImg.setAttribute('alt', carousel.currentIndex);
-
-const nextImg = document.querySelector('.nextImage');
-nextImg.setAttribute('src', carousel.nextSlide.src);
-nextImg.setAttribute('alt', carousel.nextIndex);
-
-const prevImg = document.querySelector('.prevImage');
-prevImg.setAttribute('src', carousel.prevSlide.src);
-prevImg.setAttribute('alt', carousel.prevIndex);
-
-const imgSliders = [prevImg, curImg, nextImg];
-SetImgClick();
-
 const divCheck = document.getElementById('check1');
 divCheck.addEventListener('click', ChangeSlider);
 
+const radioSlider1 = document.getElementById('slider1');
 const divPointers = document.getElementById('pointers');
 CreatePointers();
+SetNewImgIndex();
+SetImgClick();
 
-export {carousel, radioSlider1, imgSliders, divPointers};
+export {carousel, radioSlider1, divPointers};

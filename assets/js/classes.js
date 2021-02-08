@@ -23,8 +23,7 @@ class Carousel {
     }
     set currentIndex(value) {
         if (typeof value !== 'number') throw new TypeError();
-        if (
-            !Number.isSafeInteger(value) ||
+        if (!Number.isSafeInteger(value) ||
             value < 0 ||
             value >= this._slides.length
         )
@@ -34,30 +33,63 @@ class Carousel {
     get currentSlide() {
         return this._slides[this._currentIndex];
     }
-    get nextSlide() {
-        return this._slides[this.nextIndex];
+
+    //nextSlide
+    get next1Slide() {
+        return this._slides[this.next1Index];
     }
-    get prevSlide() {
-        return this._slides[this.prevIndex];
+    get next2Slide() {
+        return this._slides[this.next2Index];
     }
-    get prevPrevSlide() {
-        return this._slides[this.prevPrevIndex];
+    get next3Slide() {
+        return this._slides[this.next3Index];
     }
-    get nextNextSlide() {
-        return this._slides[this.nextNextIndex];
+    get next4Slide() {
+        return this._slides[this.next4Index];
     }
-    get nextIndex() {
+
+    //prevSlide
+    get prev1Slide() {
+        return this._slides[this.prev1Index];
+    }
+    get prev2Slide() {
+        return this._slides[this.prev2Index];
+    }
+    get prev3Slide() {
+        return this._slides[this.prev3Index];
+    }
+    get prev4Slide() {
+        return this._slides[this.prev4Index];
+    }
+
+    //nextIndex
+    get next1Index() {
         return (this._currentIndex + 1) % this._slides.length;
     }
-    get prevIndex() {
-        return (this._currentIndex - 1 + this._slides.length) % this._slides.length;
-    }
-    get prevPrevIndex() {
-        return (this._currentIndex - 2 + this._slides.length) % this._slides.length;
-    }
-    get nextNextIndex() {
+    get next2Index() {
         return (this._currentIndex + 2) % this._slides.length;
     }
+    get next3Index() {
+        return (this._currentIndex + 3) % this._slides.length;
+    }
+    get next4Index() {
+        return (this._currentIndex + 4) % this._slides.length;
+    }
+
+    //prevIndex
+    get prev1Index() {
+        return (this._currentIndex - 1 + this._slides.length) % this._slides.length;
+    }
+    get prev2Index() {
+        return (this._currentIndex - 2 + this._slides.length) % this._slides.length;
+    }
+    get prev3Index() {
+        return (this._currentIndex - 3 + this._slides.length) % this._slides.length;
+    }
+    get prev4Index() {
+        return (this._currentIndex - 4 + this._slides.length) % this._slides.length;
+    }
+  
     get length() { return this._slides.length; }
 }
 
