@@ -113,7 +113,7 @@ function CreatePointers() {
     divPointers.children[carousel.currentIndex].classList.replace('notCurrImgPointer', 'currImgPointer');
 };
 
-//// click image slide if slider#2.checked
+//// click image slide
 function SetCurrSlide(e) {
     if (!radioSlider1.checked) {
         if (!e.target.classList.contains('currentImage')) {
@@ -128,6 +128,10 @@ function SetCurrSlide(e) {
             if (e.target.nextElementSibling !== null)
                 SetSizeToRight(e.target);
         }
+    }
+    else{
+        carousel.currentIndex = Number(e.target.alt);
+        SetNewImgIndex();
     }
 }
 
