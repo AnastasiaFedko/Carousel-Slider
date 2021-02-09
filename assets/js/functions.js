@@ -196,4 +196,4 @@ function SetAttributesToLeft(currImgEl, index = 1) {
     }
 };
 
-export { SetImgClick, CreatePointers, ChangeSlider, sliderClick, SetNewImgIndex };
+export { SetImgClick, CreatePointers, ChangeSlider, sliderClick, SetNewImgIndex, ChangeCurrentImgSlidePosition };

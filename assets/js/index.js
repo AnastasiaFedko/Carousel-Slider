@@ -1,7 +1,7 @@
 'use strict'
 
 import {Slide, Carousel} from "./classes.js";
-import {SetImgClick, CreatePointers, ChangeSlider, sliderClick, SetNewImgIndex} from "./functions.js";
+import {SetImgClick, CreatePointers, ChangeSlider, sliderClick, SetNewImgIndex, ChangeCurrentImgSlidePosition } from "./functions.js";
 
 
 const carousel = new Carousel([
@@ -51,6 +51,8 @@ nextButtonElem.addEventListener('click', sliderClick('next'));
 const divCheck = document.getElementById('check1');
 divCheck.addEventListener('click', ChangeSlider);
 
+const labelSlider1 = document.getElementById('lbl1');
+labelSlider1.addEventListener('click', ChangeCurrentImgSlidePosition);
 const radioSlider1 = document.getElementById('slider1');
 
 const divPointers = document.getElementById('pointers');
