@@ -83,7 +83,8 @@ function SetCurrSlideOnPointerClick(e) {
     divPointers.childNodes[carousel.currentIndex].classList.replace('currImgPointer', 'notCurrImgPointer');
     for (let i = 0; i < allPointers.length; i++) {
         if (allPointers[i] == e.target) {
-            carousel.currentIndex = i;
+            carousel.currentIndex = i;     
+            break;     
         }
     }
     divPointers.childNodes[carousel.currentIndex].classList.replace('notCurrImgPointer', 'currImgPointer');
