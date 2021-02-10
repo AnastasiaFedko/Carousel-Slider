@@ -1,9 +1,8 @@
 'use strict'
 
-import {Carousel} from "./Classes/Carousel.js";
-import {Slide} from './Classes/Slide.js';
 import {SetImgClick, CreatePointers, ChangeSlider, sliderClick, SetNewImgIndex, ChangeCurrentImgSlidePosition } from "./functions.js";
-
+import {Carousel} from './Classes/Carousel.js';
+import {Slide} from './Classes/Slide.js';
 
 const carousel = new Carousel([
     new Slide(
